@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Program1
+namespace ClassGame
 {
     class Program
     {     
         private static void Main(string[] args)
         {
             // Console.Clear();
-            Console.WriteLine(new string('*', 50));
+            Console.WriteLine(new string('*', 80));
             Console.WriteLine("Challenge 1:");
-            Console.WriteLine(new string('*', 50));
+            Console.WriteLine(new string('*', 80));
 
             //Challenge 1
             /* create variables from these countries
@@ -89,6 +89,16 @@ namespace Program1
 
             //Challenge 2
             /* write your own game */
+            Console.WriteLine("\n" + new string('*', 80));
+            Console.WriteLine("Challenge 2:");
+            Console.WriteLine(new string('*', 80));
+
+            // Room creation
+            var Entrance = new Room("Entrance", true, false, false, false);
+            var Lounge = new Room("Lounge", true, true, true, true);
+
+            Entrance.AddConnection(Lounge, "north");
+            Console.WriteLine($"North of room {Entrance.Name} is {Entrance.RoomNorth.Name}.");
         }
 
         class Country
@@ -266,15 +276,5 @@ namespace Program1
             < (double) GDPP.SuperRich => "Super Rich",
             _ => "Hyper Rich"
         }; 
-
-        class Room
-        {
-            /* provide your code for challenge 2 here */
-        }
-
-        class Player
-        {
-            /* provide your code for challenge 2 here */
-        }
     }
 }
