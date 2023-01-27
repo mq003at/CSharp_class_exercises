@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace ClassGame
 {
     class Program
-    {     
+    {
         private static void Main(string[] args)
         {
             // Console.Clear();
@@ -96,9 +96,50 @@ namespace ClassGame
             // Room creation
             var Entrance = new Room("Entrance", true, false, false, false);
             var Lounge = new Room("Lounge", true, true, true, true);
+            var Kitchen = new Room("Kitchen", true, false, true, false);
+            var Study = new Room("Study", false, true, false, false);
+            var Bathroom = new Room("Bathroom", false, true, false, false);
+            var LivingRoom = new Room("Living Room", false, true, true, true);
+            var Bedroom = new Room("Bedroom", false, false, true, true);
 
+            Console.WriteLine("Setting Castlevania up:\n");
             Entrance.AddConnection(Lounge, "north");
-            Console.WriteLine($"North of room {Entrance.Name} is {Entrance.RoomNorth.Name}.");
+            Lounge.AddConnection(Study, "west");
+            Lounge.AddConnection(Kitchen, "east");
+            Lounge.AddConnection(LivingRoom, "north");
+            Lounge.AddConnection(Entrance, "south");
+            Study.AddConnection(Lounge, "east");
+            Kitchen.AddConnection(Lounge, "west");
+            Kitchen.AddConnection(Bedroom, "north");
+            LivingRoom.AddConnection(Lounge, "south");
+            LivingRoom.AddConnection(Bathroom, "west");
+            LivingRoom.AddConnection(Bedroom, "east");
+            Bathroom.AddConnection(LivingRoom, "east");
+            Bedroom.AddConnection(Kitchen, "south");
+            Bedroom.AddConnection(LivingRoom, "west");
+
+            Console.WriteLine($"\nRoom setup complete. Game will now start!");
+
+            var PlayerOne = new Player("PlayerOne", LivingRoom);
+            string input = "";
+            // Console.WriteLine($"Player {PlayerOne.Name} is currently in {PlayerOne.CurrentPosition.Name}.");
+            // PlayerOne.Move("west");
+            // Console.WriteLine($"Player {PlayerOne.Name} is currently in {PlayerOne.CurrentPosition.Name}.");
+
+            Console.WriteLine(
+                $"Player {PlayerOne.Name} is currently in {PlayerOne.CurrentPosition.Name}."
+            );
+            while (PlayerOne.CurrentPosition.Name != "Entrance")
+            {
+                Console.WriteLine(
+                    $"Player {PlayerOne.Name} is currently in {PlayerOne.CurrentPosition.Name}."
+                );
+                Console.Write(
+                    "Input the direction you want to move to (north, east, west, south): "
+                );
+                input = Console.ReadLine();
+                PlayerOne.Move(input);
+            }
         }
 
         class Country
@@ -193,7 +234,7 @@ namespace ClassGame
                 HasBorder(countryInstance);
             }
 
-            public static string CheckWealth(Country country) 
+            public static string CheckWealth(Country country)
             {
                 return CheckWealthOnGDPP(country.GDP);
             }
@@ -267,14 +308,15 @@ namespace ClassGame
         }
 
         // Patern matching C# 9.0 testing
-        public static string CheckWealthOnGDPP(double GDP) => GDP switch
-        {
-            < (double) GDPP.SuperPoor => "Super Poor",
-            < (double) GDPP.Poor => "Poor",
-            < (double) GDPP.Medium => "Medium",
-            < (double) GDPP.Rich => "Rich",
-            < (double) GDPP.SuperRich => "Super Rich",
-            _ => "Hyper Rich"
-        }; 
+        public static string CheckWealthOnGDPP(double GDP) =>
+            GDP switch
+            {
+                < (double)GDPP.SuperPoor => "Super Poor",
+                < (double)GDPP.Poor => "Poor",
+                < (double)GDPP.Medium => "Medium",
+                < (double)GDPP.Rich => "Rich",
+                < (double)GDPP.SuperRich => "Super Rich",
+                _ => "Hyper Rich"
+            };
     }
 }
